@@ -1,0 +1,33 @@
+FROM ubuntu:20.04
+
+LABEL maintainer="samuel@lip.pt"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN \
+  apt-get update \
+    && apt-get install -y \
+# Python
+      python python3 \
+# NoVNC with dependencies
+      git net-tools python-numpy \
+  # must switch to a release tag once the ssl-only arg included
+    && git clone --branch v1.2.0 https://github.com/novnc/noVNC /noVNC \
+    && git clone --branch v0.9.0 https://github.com/novnc/websockify /noVNC/utils/websockify \
+# Clean up the apt cache
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN \
+  apt-get update \
+    && apt-get install -y \
+      vim wget byobu libgtk-3.0 libwebkitgtk-3.0.0 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+CMD \
+# NoVNC
+  openssl req -new -x509 -days 36500 -nodes -batch -out /root/noVNC.pem -keyout /root/noVNC.pem \
+    && ln -sf /noVNC/vnc.html /noVNC/index.html \
+    && /noVNC/utils/launch.sh --listen ${noVNC_PORT:-6080} --vnc localhost:${VNC_PORT:-5900} --cert /root/noVNC.pem --ssl-only
+
