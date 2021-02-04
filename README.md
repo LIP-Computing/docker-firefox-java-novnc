@@ -37,7 +37,7 @@ How to build and upload the docker images:
 
 2.  Generate the imagens and test
 
-    docker-compose -f docker-compose.devel.yml up -d
+    docker-compose -f docker-compose.yml -f docker-compose.devel.yml up -d
 
 3.  If working as expected, push the images into configured docker registry
 
