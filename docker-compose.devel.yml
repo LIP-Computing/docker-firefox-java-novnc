@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  firefox_java6_x11vnc:
+    build:
+      context: "."
+      dockerfile: "./Dockerfile.firefox_java6_x11vnc"
+      cache_from:
+        - "lipcomputing/novnc_openbox"
+    environment:
+      SERVERNUM: 1
+      VNC_PASSWD: "password"
+
+  novnc_openbox:
+    build:
+      context: "."
+      dockerfile: "./Dockerfile.novnc_openbox"
+    environment:
+      VNC_PORT: 5901
+      noVNC_PORT: 6080
+
