@@ -44,7 +44,11 @@ run \
     && mkdir ~/.vnc
 
 # Autostart firefox (might not be the best way to do it, but it does the trick)
-RUN     mkdir -p ~/.config/i3 && echo "workspace_layout tabbed" > ~/.config/i3/config && echo "exec_always firefox" >> ~/.config/i3/config
+RUN \
+  mkdir -p ~/.i3 \
+    && cp /etc/i3/config ~/.i3/config \
+    && echo "workspace_layout tabbed" >> ~/.i3/config \
+    && echo "exec_always firefox" >> ~/.i3/config
 
 # Entry point
 #x11vnc -forever -create
@@ -65,6 +69,6 @@ CMD \
     mkdir -p ~/.x11vnc \
       && sleep 3 \
       && x11vnc -storepasswd $VNC_PASSWD /root/.x11vnc/passwd \
-      && x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -forever -rfbauth /root/.x11vnc/passwd; \
+      && x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd; \
   fi
 
