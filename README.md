@@ -3,7 +3,7 @@ docker-firefox-java6
 
 Firefox over Docker via VNC including the necessary Java plugins to support working with a bunch of old Java/Web based management interfaces, such as old Dell DRAC, HP iLO or switches. This project provides an easy way to spin up a browser with full support.
 
-This Dockerfile is based on the work found here: \
+This project Dockerfile are based on the work found in: \
 https://github.com/creack/docker-firefox \
 https://github.com/jvdneste/docker-novnc \
 https://github.com/ktelep/docker-firefox-java
