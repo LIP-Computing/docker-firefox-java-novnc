@@ -8,6 +8,13 @@ services:
     depends_on:
       - novnc_openbox
 
+  dl160_g5g6_java6_x11vnc:
+    image: "lipcomputing/dl160_g5g6-x11vnc-java6:latest"
+    container_name: "dl160_g5g6_java6_x11vnc"
+    network_mode: "host"
+    depends_on:
+      - novnc_openbox
+
   novnc_openbox:
     image: "lipcomputing/novnc_openbox:latest"
     container_name: "novnc_openbox"

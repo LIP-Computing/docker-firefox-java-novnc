@@ -1,0 +1,72 @@
+FROM  f69m/ubuntu32:14.04
+
+LABEL maintainer="samuel@lip.pt"
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# make sure the package repository is up to date
+run \
+  echo "deb http://archive.ubuntu.com/ubuntu precise main universe multiverse restricted" > /etc/apt/sources.list \
+    && apt-get update \
+    && apt-get clean
+
+RUN \
+  apt-get update \
+    && apt-get install -y \
+# X Server
+      xvfb \
+# VNC Server
+      x11vnc \
+# Window manager
+      i3 \
+# Window manager required tools
+      feh pulseaudio-utils xbacklight alsa-tools clipit gcc git terminator locate pcmanfm \
+      acpi libnotify-bin wget \
+    && wget -O fonts-font-awesome_4.5.0~dfsg-1_all.deb http://archive.ubuntu.com/ubuntu/pool/main/f/fonts-font-awesome/fonts-font-awesome_4.5.0~dfsg-1_all.deb \
+    && dpkg -i fonts-font-awesome_4.5.0~dfsg-1_all.deb \
+# Clean up the apt cache
+    && apt-get clean
+
+# Install the specific tzdata-java we need
+run \
+  apt-get update \
+    && wget --no-check-certificate https://launchpad.net/ubuntu/+archive/primary/+files/tzdata-java_2016j-0ubuntu0.14.04_all.deb \
+    && dpkg -i tzdata-java_2016j-0ubuntu0.14.04_all.deb \
+    && apt-get install -y tzdata \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean \
+    && mkdir ~/.vnc \
+    && mkdir -p /opt/DL160-G5G6
+
+# Add application to manage DL160
+COPY resources/machine-types/DL160-G5G6/M2.JAR /opt/DL160-G5G6/M2.JAR
+
+# Autostart firefox (might not be the best way to do it, but it does the trick)
+RUN \
+  mkdir -p ~/.i3 \
+    && cp /etc/i3/config ~/.i3/config \
+    && echo "workspace_layout tabbed" >> ~/.i3/config \
+    && echo "exec_always java -jar /opt/DL160-G5G6/M2.JAR" >> ~/.i3/config
+
+# Entry point
+#x11vnc -forever -create
+
+# Run x11vnc
+CMD \
+# X Server
+  cd /root \
+    && rm -f /tmp/.X1-lock \
+    && setcap -r `which i3status` \
+    && xvfb-run -f /root/.xvfbauth -n ${SERVERNUM:-1} -s '-screen 0 1600x900x16' i3 & \
+# VNC Server
+  if [ -z $VNC_PASSWD ]; then \
+    # no password
+    x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever; \
+  else \
+    # set password from VNC_PASSWD env variable
+    mkdir -p ~/.x11vnc \
+      && sleep 3 \
+      && x11vnc -storepasswd $VNC_PASSWD /root/.x11vnc/passwd \
+      && x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd; \
+  fi
+

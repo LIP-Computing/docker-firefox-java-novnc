@@ -11,6 +11,16 @@ services:
       SERVERNUM: 1
       VNC_PASSWD: "password"
 
+  dl160_g5g6_java6_x11vnc:
+    build:
+      context: "."
+      dockerfile: "./Dockerfile.dl160_g5g6_java6_x11vnc"
+      cache_from:
+        - "lipcomputing/novnc_openbox"
+    environment:
+      SERVERNUM: 1
+      VNC_PASSWD: "password"
+
   novnc_openbox:
     build:
       context: "."
