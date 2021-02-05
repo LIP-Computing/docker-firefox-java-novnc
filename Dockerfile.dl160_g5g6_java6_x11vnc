@@ -32,13 +32,14 @@ run \
   apt-get update \
     && wget --no-check-certificate https://launchpad.net/ubuntu/+archive/primary/+files/tzdata-java_2016j-0ubuntu0.14.04_all.deb \
     && dpkg -i tzdata-java_2016j-0ubuntu0.14.04_all.deb \
-    && apt-get install -y tzdata \
+    && apt-get install -y tzdata openjdk-6-jre-headless icedtea-netx \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
     && mkdir ~/.vnc \
     && mkdir -p /opt/DL160-G5G6
 
 # Add application to manage DL160
+COPY resources/java-settings/java-6-openjdk/java.security /etc/java-6-openjdk/security/java.security
 COPY resources/machine-types/DL160-G5G6/M2.JAR /opt/DL160-G5G6/M2.JAR
 
 # Autostart firefox (might not be the best way to do it, but it does the trick)
