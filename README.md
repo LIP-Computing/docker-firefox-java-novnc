@@ -8,7 +8,17 @@ https://github.com/creack/docker-firefox \
 https://github.com/jvdneste/docker-novnc \
 https://github.com/ktelep/docker-firefox-java
 
-How to test:
+
+## Available services:
+
+- **firefox_java6_x11vnc**: start firefox 11 with support to java6, available over VNC
+
+- **dl160_g5g6_java6_x11vnc**: start HP iLO remote management application over java6, accessible with VNC
+
+- **novnc_openbox**: run novnc to access the x11vnc without requiring to configure a vnc client
+
+
+## How to test:
 
 1.  Build the docker images
 
@@ -31,7 +41,7 @@ How to test:
 You may wish to add a -v <localpath>:<containerpath> if you want to use Virtual Media or the like to mount ISOs for loading Operating Systems/etc. on servers.
 
 
-How to build and upload the docker images:
+## How to build and upload the docker images:
 
 1.  Review required environment variables and build configurations in docker-compose.devel.yml
 
@@ -48,7 +58,7 @@ How to build and upload the docker images:
     docker-compose down --rmi all -v --remove-orphans
 
 
-How to execute:
+## How to execute a service:
 
 1.  Update required environment variables in docker-compose.override.yml (for example VNC_PORT)
 
