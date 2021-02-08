@@ -18,14 +18,22 @@ services:
       cache_from:
         - "lipcomputing/novnc_openbox"
     environment:
-      SERVERNUM: 1
+      SERVERNUM: 2
       VNC_PASSWD: "password"
 
-  novnc_openbox:
+  novnc_firefox_java6:
     build:
       context: "."
       dockerfile: "./Dockerfile.novnc_openbox"
     environment:
-      VNC_PORT: 5901
+      VNC_PORT: 5902
       noVNC_PORT: 6080
+
+  novnc_dl160_g5g6_java6:
+    build:
+      context: "."
+      dockerfile: "./Dockerfile.novnc_openbox"
+    environment:
+      VNC_PORT: 5903
+      noVNC_PORT: 6081
 
