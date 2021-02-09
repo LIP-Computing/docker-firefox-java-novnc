@@ -10,6 +10,7 @@ services:
     environment:
       SERVERNUM: 1
       VNC_PASSWD: "password"
+      VNC_PORT: 5910
 
   dl160_g5g6_java6_x11vnc:
     build:
@@ -20,13 +21,14 @@ services:
     environment:
       SERVERNUM: 2
       VNC_PASSWD: "password"
+      VNC_PORT: 5911
 
   novnc_firefox_java6:
     build:
       context: "."
       dockerfile: "./Dockerfile.novnc_openbox"
     environment:
-      VNC_PORT: 5902
+      VNC_PORT: 5910
       noVNC_PORT: 6080
 
   novnc_dl160_g5g6_java6:
@@ -34,6 +36,6 @@ services:
       context: "."
       dockerfile: "./Dockerfile.novnc_openbox"
     environment:
-      VNC_PORT: 5903
+      VNC_PORT: 5911
       noVNC_PORT: 6081
 
