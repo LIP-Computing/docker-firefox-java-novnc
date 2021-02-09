@@ -75,7 +75,7 @@ CMD \
       && x11vnc -storepasswd $VNC_PASSWD /root/.x11vnc/passwd \
       && if [ -z $VNC_PORT ]; then \
           x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd; \
-        else
+        else \
           x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd -rfbport ${VNC_PORT}; \
         fi; \
   fi
