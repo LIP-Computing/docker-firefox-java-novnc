@@ -62,12 +62,20 @@ CMD \
 # VNC Server
   if [ -z $VNC_PASSWD ]; then \
     # no password
-    x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever; \
+    if [ -z $VNC_PORT ]; then \
+      x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever; \
+    else \
+      x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbport ${VNC_PORT}; \
+    fi; \
   else \
     # set password from VNC_PASSWD env variable
     mkdir -p ~/.x11vnc \
       && sleep 3 \
       && x11vnc -storepasswd $VNC_PASSWD /root/.x11vnc/passwd \
-      && x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd; \
+      && if [ -z $VNC_PORT ]; then \
+          x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd; \
+        else
+          x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd -rfbport ${VNC_PORT}; \
+        fi; \
   fi
 

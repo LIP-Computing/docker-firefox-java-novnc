@@ -18,6 +18,18 @@ https://github.com/ktelep/docker-firefox-java
 - **novnc_openbox**: run novnc to access the x11vnc without requiring to configure a vnc client
 
 
+## Environment variables:
+
+*_x11vnc:
+- SERVERNUM (mandatory): X11 display number to use for created session
+- VNC_PASSWD (optional but recommended): password for vnc session (default value in docker-compose examples must be changed)
+- VNC_PORT (optional): bind vnc service to specific port
+
+novnc_*:
+- VNC_PORT (optional): connect to vnc service at specific port instead of default 5900
+- noVNC_PORT (optional): bind noVNC to specific port (default 6080)
+
+
 ## How to test:
 
 1.  Build the docker images
