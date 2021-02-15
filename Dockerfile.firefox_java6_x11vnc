@@ -44,7 +44,7 @@ run \
     && mkdir ~/.vnc \
     && mkdir -p /usr/local/bin
 
-COPY src/firefox /usr/local/bin/firefox
+COPY src/firefox /usr/local/bin/firefox.sh
 
 # Autostart firefox (might not be the best way to do it, but it does the trick)
 RUN \
@@ -52,7 +52,7 @@ RUN \
     && chmod 755 /usr/local/bin/firefox \
     && cp /etc/i3/config ~/.i3/config \
     && echo "workspace_layout tabbed" >> ~/.i3/config \
-    && echo "exec_always /usr/local/bin/firefox" >> ~/.i3/config
+    && echo "exec_always /usr/local/bin/firefox.sh" >> ~/.i3/config
 
 # Run x11vnc
 CMD \
