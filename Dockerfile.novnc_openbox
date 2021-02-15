@@ -31,5 +31,5 @@ CMD \
     openssl req -new -x509 -days 36500 -nodes -batch -out /root/noVNC.pem -keyout /root/noVNC.pem; \
   fi \
     && ln -sf /noVNC/vnc.html /noVNC/index.html \
-    && /noVNC/utils/launch.sh --listen ${noVNC_PORT:-6080} --vnc localhost:${VNC_PORT:-5900} --cert /root/noVNC.pem --ssl-only
+    && nohup /noVNC/utils/launch.sh --listen ${noVNC_PORT:-6080} --vnc localhost:${VNC_PORT:-5900} --cert /root/noVNC.pem --ssl-only
 

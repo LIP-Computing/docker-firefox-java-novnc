@@ -36,18 +36,21 @@ run \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean \
     && mkdir ~/.vnc \
-    && mkdir -p /opt/DL160-G5G6
+    && mkdir -p /opt/DL160-G5G6 \
+    && mkdir -p /usr/local/bin
 
 # Add application to manage DL160
 COPY resources/java-settings/java-6-openjdk/java.security /etc/java-6-openjdk/security/java.security
 COPY resources/machine-types/DL160-G5G6/M2.JAR /opt/DL160-G5G6/M2.JAR
+COPY src/m2 /usr/local/bin/m2
 
 # Autostart firefox (might not be the best way to do it, but it does the trick)
 RUN \
   mkdir -p ~/.i3 \
+    && chmod 755 /usr/local/bin/m2 \
     && cp /etc/i3/config ~/.i3/config \
     && echo "workspace_layout tabbed" >> ~/.i3/config \
-    && echo "exec_always java -jar /opt/DL160-G5G6/M2.JAR" >> ~/.i3/config
+    && echo "exec_always /usr/local/bin/m2" >> ~/.i3/config
 
 # Entry point
 #x11vnc -forever -create
@@ -63,9 +66,9 @@ CMD \
   if [ -z $VNC_PASSWD ]; then \
     # no password
     if [ -z $VNC_PORT ]; then \
-      x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever; \
+      nohup x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever; \
     else \
-      x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbport ${VNC_PORT}; \
+      nohup x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbport ${VNC_PORT}; \
     fi; \
   else \
     # set password from VNC_PASSWD env variable
@@ -73,9 +76,9 @@ CMD \
       && sleep 3 \
       && x11vnc -storepasswd $VNC_PASSWD /root/.x11vnc/passwd \
       && if [ -z $VNC_PORT ]; then \
-          x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd; \
+          nohup x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd; \
         else \
-          x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd -rfbport ${VNC_PORT}; \
+          nohup x11vnc -auth /root/.xvfbauth -display :${SERVERNUM:-1} -xkb -localhost -forever -rfbauth /root/.x11vnc/passwd -rfbport ${VNC_PORT}; \
         fi; \
   fi
 

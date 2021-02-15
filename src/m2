@@ -1,0 +1,6 @@
+#!/bin/bash
+
+while sleep 2; do
+  nohup java -jar /opt/DL160-G5G6/M2.JAR
+done
+
