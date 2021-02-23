@@ -3,13 +3,13 @@ version: "3.7"
 services:
   firefox_java6_x11vnc:
     environment:
-      SERVERNUM: 1
+      SERVERNUM: 10
       VNC_PASSWD: "password"
       VNC_PORT: 5910
 
   dl160_g5g6_java6_x11vnc:
     environment:
-      SERVERNUM: 2
+      SERVERNUM: 11
       VNC_PASSWD: "password"
       VNC_PORT: 5911
 

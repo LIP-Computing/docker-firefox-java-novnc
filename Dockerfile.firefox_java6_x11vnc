@@ -51,6 +51,8 @@ RUN \
   mkdir -p ~/.i3 \
     && chmod 755 /usr/local/bin/firefox.sh \
     && cp /etc/i3/config ~/.i3/config \
+    && sed -i 's/status_command i3status//' ~/.i3/config \
+    && setcap -r `which i3status` \
     && echo "workspace_layout tabbed" >> ~/.i3/config \
     && echo "exec_always /usr/local/bin/firefox.sh" >> ~/.i3/config
 
@@ -59,7 +61,6 @@ CMD \
 # X Server
   cd /root \
     && rm -f /tmp/.X1-lock \
-    && setcap -r `which i3status` \
     && xvfb-run -f /root/.xvfbauth -n ${SERVERNUM:-1} -s '-screen 0 1600x900x16' i3 & \
 # VNC Server
   if [ -z $VNC_PASSWD ]; then \

@@ -5,6 +5,7 @@ services:
     image: "lipcomputing/firefox-x11vnc-java6:latest"
     container_name: "firefox_java6_x11vnc"
     network_mode: "host"
+    restart: unless-stopped
     depends_on:
       - novnc_firefox_java6
 
@@ -12,6 +13,7 @@ services:
     image: "lipcomputing/dl160_g5g6-x11vnc-java6:latest"
     container_name: "dl160_g5g6_java6_x11vnc"
     network_mode: "host"
+    restart: unless-stopped
     depends_on:
       - novnc_dl160_g5g6_java6
 
@@ -19,9 +21,11 @@ services:
     image: "lipcomputing/novnc_openbox:latest"
     container_name: "novnc_firefox_java6"
     network_mode: "host"
+    restart: unless-stopped
 
   novnc_dl160_g5g6_java6:
     image: "lipcomputing/novnc_openbox:latest"
     container_name: "novnc_dl160_g5g6_java6"
     network_mode: "host"
+    restart: unless-stopped
 
