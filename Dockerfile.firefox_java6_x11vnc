@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # make sure the package repository is up to date
 run \
-  echo "deb http://archive.ubuntu.com/ubuntu precise main universe multiverse restricted" > /etc/apt/sources.list \
+  echo "deb http://old-releases.ubuntu.com/ubuntu precise main universe multiverse restricted" > /etc/apt/sources.list \
     && apt-get update \
     && apt-get clean
 
